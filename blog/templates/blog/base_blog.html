@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Блог{% endblock title %}
+
+{% block page %}
+    {% include "includes/blog/header.html" %}
+
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    {% include "includes/blog/footer.html" %}
+{% endblock page %}
