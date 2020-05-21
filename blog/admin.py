@@ -36,7 +36,7 @@ class UserInLine(admin.StackedInline):
         }),
         ('Login data', {
             'classes': ('collapse',),
-            'fields': ('login', 'password'),
+            'fields': ('login',),
         })
     )
     extra = 1
@@ -90,7 +90,7 @@ class UserAdmin(admin.ModelAdmin):
         }),
         ('Login data', {
             'classes': ('collapse',),
-            'fields': ('login', 'password'),
+            'fields': ('login',),
         })
     )
     display_list = ('name', 'last_name', 'nickname', 'login')

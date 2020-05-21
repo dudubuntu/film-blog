@@ -1,0 +1,26 @@
+{% extends "blog/base_blog.html" %}
+
+{% block title %}
+    {{ block.super }}|{{post.title}}
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <p>{{post.title}}</p>
+    <img src="{{post.poster.url}}">
+    {% for tag in tag_list %}
+        <em><a href="{{tag.get_absolute_url}}">{{tag.title}}</a></em>
+    {% endfor %}
+    <div class="container">
+        {% for image in image_list %}
+            <img src="{{image.img.thumb_url}}">
+        {% endfor %}
+    </div>
+    <div class="container">
+        {% for comment in comment_list %}
+            <h3>{{comment.user.nickname}}</h3>
+            <p>{{comment.text}}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

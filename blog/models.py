@@ -22,7 +22,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail', args={'slug': self.slug})
+        return reverse('blog:post_detail', kwargs={'slug': self.slug})
 
 
 class Image(models.Model):
@@ -48,7 +48,7 @@ class Tag(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('tag_detail', args={'slug': slug})
+        return reverse('blog:tag_detail', kwargs={'slug': self.slug})
 
 
 class Discussion(models.Model):
@@ -66,7 +66,7 @@ class Discussion(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:discussion_detail', args={'slug': self.slug})
+        return reverse('blog:discussion_detail', kwargs={'slug': self.slug})
 
 
 class CommentPost(models.Model):
@@ -74,7 +74,7 @@ class CommentPost(models.Model):
     user = models.ForeignKey('User', related_name='comment_post', on_delete=models.CASCADE)
     id = models.AutoField(primary_key=True)
     text = models.CharField(max_length=5000, blank=True)
-    add_date = models.DateTimeField()
+    add_date = models.DateTimeField(default=timezone.now)
     changed_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
@@ -84,7 +84,7 @@ class CommentPost(models.Model):
         return self.user.name
 
     def get_absolute_url(self):
-        return reverse('blog:comment_post', args={'id': self.id})
+        return reverse('blog:comment_post', kwargs={'id': self.id})
 
 
 class CommentDiscussion(models.Model):
@@ -92,22 +92,21 @@ class CommentDiscussion(models.Model):
     user = models.ForeignKey('User', related_name='comment_discussion', on_delete=models.CASCADE)
     id = models.AutoField(primary_key=True)
     text = models.CharField(max_length=5000, blank=True)
-    add_date = models.DateTimeField()
+    add_date = models.DateTimeField(default=timezone.now)
     changed_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         ordering = ['-add_date']
     
     def __str__(self):
-        return self.user__name
+        return self.user.name
 
     def get_absolute_url(self):
-        return reverse('blog:comment_discussion', args={'id': self.id})
+        return reverse('blog:comment_discussion', kwargs={'id': self.id})
 
 
 class User(models.Model):
     login = models.CharField(max_length=250, unique=True)
-    password = models.CharField(max_length=250, blank=True)
     name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250, blank=True)
     nickname = models.CharField(max_length=250, blank=True)
@@ -123,7 +122,7 @@ class User(models.Model):
         return self.nickname if self.nickname else ( f'{self.name}' + ' {0}'.format(self.last_name if self.last_name else '') )
 
     def get_absolute_url(self):
-        return reverse('profile_detail', args={'slug': self.nickname if self.nickname else self.login})
+        return reverse('blog:profile_detail', kwargs={'slug': self.nickname if self.nickname else self.login})
 
 class Permission(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
@@ -137,4 +136,5 @@ class Permission(models.Model):
         return self.title
 
 class UserHistory(models.Model):
-    date = models.ForeignKey('User', on_delete=models.CASCADE, related_name='history')
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='history')
+    date = models.DateTimeField()

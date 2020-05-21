@@ -1,0 +1,18 @@
+{% extends "blog/base_blog.html" %}
+
+{% block title %}
+    {{ block.super }}|{{tag.title}}
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2>{{tag.title}}</h2>
+    <p>{{tag.description}}</p>
+    <div class="container">
+        {% for post in post_list %}
+            <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+            <img src="{{post.poster.thumb_url}}" alt=""><br>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

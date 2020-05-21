@@ -6,6 +6,9 @@
 
 {% block content %}
 <div class="container">
-    Какие то обсуждения
+    {% for discussion in discussion_list %}
+        <h2><a href="{{discussion.get_absolute_url}}"> {{discussion.title}}</a></h2>
+        <em>{{discussion.add_date}}</em><br><br>
+    {% endfor %}
 </div>
 {% endblock content %}

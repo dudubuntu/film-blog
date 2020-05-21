@@ -1,0 +1,13 @@
+{% extends "blog/base_blog.html" %}
+
+{% block title %}
+    {{ block.super }}|Тэги
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    {% for tag in tag_list %}
+    <a href="{{tag.get_absolute_url}}"><p>Тэги: {{ tag.title }}</p></a>
+    {% endfor %}
+</div>
+{% endblock content %}

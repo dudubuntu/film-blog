@@ -6,6 +6,9 @@
 
 {% block content %}
 <div class="container">
-    Какие то посты
+    {% for post in post_list %}
+        <a href="{{post.get_absolute_url}}"><p>Пост: {{ post.title }}</p></a>
+        <img src="{{post.poster.thumb_url}}" alt="">
+    {% endfor %}
 </div>
 {% endblock content %}

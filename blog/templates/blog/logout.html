@@ -1,0 +1,15 @@
+{% extends "blog/base_blog.html" %}
+
+{% block title %}
+    {{ block.super }}|Логин
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h3>Вы, действительно, хотите выйти?</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Подтвердить</button>
+    </form>
+</div>
+{% endblock content %}

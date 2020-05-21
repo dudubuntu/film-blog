@@ -1,0 +1,33 @@
+{% extends "blog/base_blog.html" %}
+
+{% block title %}
+    {{ block.super }}|{{discussion.title}}
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>{{discussion.title}}</h1>
+    <h4>{{discussion.description}}</h4>
+    {% if post_list %}
+        {% for post in post_list %}
+            <a href="{{post.get_absolute_url}}"><img src="{{post.img.url}}" alt=""></a>
+        {% endfor %}
+    {% endif %}
+    <div class="container">
+        {% for comment in comment_list %}
+            <h3>{{comment.user}}</h3>
+            <p>{{comment.text}}</p>
+        {% endfor %}
+        <br><hr>
+        Оставить комментарий
+        <form action="{% url "blog:discussion_comment_detail" discussion.slug %}" method="POST">
+            {% for field in comment_form %}
+                {% csrf_token %}
+                {{field.label}}
+                {{field}}
+                <button type="submit" class="btn btn-primary mb-2 mt-2">Отправить</button>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+{% endblock content %}
